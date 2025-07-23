@@ -425,7 +425,7 @@ class Envoy:
 
         return response
 
-    async def interface_settings(self) -> EnvoyInterfaceInformation | None:
+    async def interface_settings(self, *, cache: bool = True) -> EnvoyInterfaceInformation | None:
         """
         Returns Envoy active interface information.
 
@@ -443,7 +443,7 @@ class Envoy:
         :return: Interface details or None if error
 
         """
-        if not self._interface_settings:
+        if not self._interface_settings or not cache:
             try:
                 home_json = await self._json_request(
                     end_point=ENDPOINT_URL_HOME, data=None

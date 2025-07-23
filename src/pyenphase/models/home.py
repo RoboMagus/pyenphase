@@ -27,6 +27,8 @@ class EnvoyInterfaceInformation:
     dhcp: bool  #: interfaces uses DHCP, False if missing
     software_build_epoch: int  #: envoy software build time, 0 if missing
     timezone: str  #: Timezone set in Envoy, "unknown" if missing
+    web_conn: bool #: Enphase Enlighten connection status
+    last_enlighten_report_time: int #: Timestamp of last Enlighten report
 
     @classmethod
     def from_api(cls, data: dict[str, Any]) -> EnvoyInterfaceInformation | None:
@@ -105,4 +107,6 @@ class EnvoyInterfaceInformation:
             dhcp=interface.get("dhcp", False),
             software_build_epoch=data.get("software_build_epoch", 0),
             timezone=data.get("timezone", "unknown"),
+            web_conn=network.get("web_comm", False),
+            last_enlighten_report_time=network.get("last_enlighten_report_time", 0),
         )
